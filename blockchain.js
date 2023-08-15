@@ -13,6 +13,19 @@ class BlockChain {
 
         return block;
     }
+
+    isValidChain(chain){
+        if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesisBlock())){
+            return false;
+        }
+        for (let i = 1; i < chain.length; i++) {
+            const block = chain[i];
+            const lastBlock = chain[i-1];
+            if(block.lastHash !== lastBlock.hash) return false;
+            if(block.hash !== Block.blockHash(block)) return false;
+        }
+        return true;
+    }
 }
 
 export default BlockChain;

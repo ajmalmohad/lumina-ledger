@@ -1,11 +1,12 @@
 import BlockChain from "./blockchain.js";
 import Block from "./block";
 
-describe('Block', () => { 
-    let blockchain;
+describe('BlockChain', () => { 
+    let blockchain, blockchain2;
     
     beforeEach(()=>{
         blockchain = new BlockChain();
+        blockchain2 = new BlockChain();
     })
 
 
@@ -17,5 +18,10 @@ describe('Block', () => {
         const data = "newblock";
         blockchain.addBlock(data);
         expect(blockchain.chain[blockchain.chain.length - 1].data).toEqual(data);
+    })
+
+    it("validates a valid chain", ()=>{
+        blockchain2.addBlock('foo');
+        expect(blockchain.isValidChain(blockchain2.chain)).toBe(true);
     })
 })

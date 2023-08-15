@@ -35,6 +35,11 @@ class Block {
     static hash(timestamp, lastHash, data){
         return createHash('sha256').update(`${timestamp}${lastHash}${data}`).digest('hex')
     }
+
+    static blockHash(block){
+        const { timestamp, lastHash, data } = block;
+        return Block.hash(timestamp, lastHash, data);
+    }
 }
 
 export default Block;
