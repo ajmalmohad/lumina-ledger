@@ -14,6 +14,10 @@ class Block {
         Data:      ${this.data}
         `;
     }
+
+    static genesis() {
+        return new this('January 1, 1000 00:00:00', '-------', 'f1r57-h45h', []);
+    }
 }
 
 export default Block;
