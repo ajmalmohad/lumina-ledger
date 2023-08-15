@@ -23,6 +23,7 @@ app.post('/mine', (req, res) => {
   if(!data) res.status(404).send({"error": "Data not recieved"});
   else{
     blockchain.addBlock(data);
+    p2pServer.syncChains();
     res.status(200).send(blockchain.chain);
   }
 })
