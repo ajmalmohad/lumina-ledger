@@ -35,4 +35,10 @@ describe('BlockChain', () => {
         blockchain2.chain[1] = 'notfoo';
         expect(blockchain.isValidChain(blockchain2.chain)).toBe(false);
     })
+
+    it("replaces the blockchain", ()=>{
+        blockchain2.addBlock('foo');
+        blockchain.replaceChain(blockchain2.chain);
+        expect(blockchain.chain).toEqual(blockchain2.chain);
+    })
 })
