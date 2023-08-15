@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto'
+
 class Block {
     constructor(timestamp, lastHash, hash, data) {
         this.timestamp = timestamp;
@@ -9,14 +11,29 @@ class Block {
     toString() {
         return `Block
         Timestamp: ${this.timestamp}
-        Last Hash: ${this.lastHash.substring(0.10)}
-        Hash:      ${this.hash.substring(0.10)}
+        Last Hash: ${this.lastHash}
+        Hash:      ${this.hash}
         Data:      ${this.data}
         `;
     }
 
-    static genesis() {
-        return new this('January 1, 1000 00:00:00', '-------', 'f1r57-h45h', []);
+    static genesisBlock() {
+        const timestamp = new Date('January 1, 1000 00:00:00');
+        const lastHash = null;
+        const data = [];
+        const hash = Block.hash(timestamp, lastHash, data)
+        return new this(timestamp, lastHash, hash, data);
+    }
+
+    static mineBlock(lastBlock, data){
+        const timestamp = Date.now();
+        const lastHash = lastBlock.hash;
+        const hash = Block.hash(timestamp, lastHash, data);
+        return new this(timestamp, lastHash, hash, data);
+    }
+
+    static hash(timestamp, lastHash, data){
+        return createHash('sha256').update(`${timestamp}${lastHash}${data}`).digest('hex')
     }
 }
 
