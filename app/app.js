@@ -1,12 +1,14 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import Blockchain from './../blockchain/blockchain.js'
+import P2PServer from './p2p.js'
 
-const port  = process.env.PORT || 3000;
 dotenv.config();
+const port  = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 const blockchain = new Blockchain();
+const p2pServer = new P2PServer(blockchain);
 
 app.get('/', (req, res) => {
   res.send('Working!');
@@ -28,3 +30,5 @@ app.post('/mine', (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 })
+
+p2pServer.listen();
