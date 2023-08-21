@@ -1,8 +1,4 @@
-import BlockChain from './blockchain/blockchain.js'
+import Wallet from "./wallet/wallet.js";
 
-let bc = new BlockChain()
-console.log(bc.chain[0].toString())
-
-for(let i=0; i<10; i++){
-    console.log(bc.addBlock(`foo${i}`).toString())
-}
+const wallet = new Wallet();
+console.log(wallet.toString());

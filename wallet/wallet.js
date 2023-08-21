@@ -1,17 +1,19 @@
+import ChainUtil from "../chain-util.js";
+import util from 'node:util'
+
 export const INITIAL_BALANCE = 500;
 
 class Wallet {
     constructor () {
         this.balance = INITIAL_BALANCE;
-        this.keyPair = null;
-        this.publicKey = null;
+        this.keyPair = ChainUtil.genKeyPair();
+        this.publicKey = this.keyPair.getPublic().encode('hex');
     }
 
     toString() {
         return `Wallet
         Balance:    ${this.balance}
         Public Key: ${this.publicKey.toString()}
-        Key Pair:   ${this.keyPair}
         `;
     }
 }
