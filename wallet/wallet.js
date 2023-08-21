@@ -1,5 +1,4 @@
 import ChainUtil from "../chain-util.js";
-import util from 'node:util'
 
 export const INITIAL_BALANCE = 500;
 
