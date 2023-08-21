@@ -2,19 +2,30 @@ import Transaction from "./transaction.js";
 import Wallet from "./wallet.js";
 
 describe('Transaction', () => { 
-    let transactions, wallet, recipient, amount;
+    let transaction, wallet, recipient, amount;
     beforeEach(()=>{
         wallet = new Wallet();
         amount = 50;
         recipient = 'recipient-address';
-        transactions = Transaction.newTransaction(wallet, recipient, amount);
+        transaction = Transaction.newTransaction(wallet, recipient, amount);
     });
 
     it('outputs the `amount` subtracted from the wallet balance', ()=>{
-        expect(transactions.outputs.find(output => output.address === wallet.publicKey).amount).toEqual(wallet.balance - amount);
+        expect(transaction.outputs.find(output => output.address === wallet.publicKey).amount).toEqual(wallet.balance - amount);
     });
 
     it('outputs the `amount` added to recipient address', ()=>{
-        expect(transactions.outputs.find(output => output.address === recipient).amount).toEqual(amount);
+        expect(transaction.outputs.find(output => output.address === recipient).amount).toEqual(amount);
     });
+
+    describe('transacting with an amount that exceeds the balance', () => { 
+        beforeEach(()=>{
+            amount = 5000;
+            transaction = Transaction.newTransaction(wallet, recipient, amount);
+        });
+    
+        it('does not create transaction', ()=>{
+            expect(transaction).toEqual(undefined);
+        });
+     })
  })
