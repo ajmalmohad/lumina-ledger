@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto'
+import ChainUtil from "../chain-util.js";
 
 export const DIFFICULTY = 3;
 export const MINE_RATE = 3000;
@@ -50,7 +50,7 @@ class Block {
     }
 
     static hash(timestamp, lastHash, data, nonce, difficulty){
-        return createHash('sha256').update(`${timestamp}${lastHash}${data}${nonce}${difficulty}`).digest('hex')
+        return ChainUtil.hash(`${timestamp}${lastHash}${data}${nonce}${difficulty}`);
     }
 
     static blockHash(block){

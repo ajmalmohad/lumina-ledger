@@ -15,6 +15,10 @@ class Wallet {
         Public Key: ${this.publicKey.toString()}
         `;
     }
+
+    sign(dataHash) {
+        return this.keyPair.sign(dataHash);
+    }
 }
 
 export default Wallet
