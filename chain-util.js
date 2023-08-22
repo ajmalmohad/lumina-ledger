@@ -16,6 +16,10 @@ class ChainUtil {
     static hash(data){
         return createHash('sha256').update(JSON.stringify(data)).digest('hex');
     }
+
+    static verifySignature(publicKey, signature, dataHash){
+        return ec.keyFromPublic(publicKey, 'hex').verify(dataHash, signature)
+    }
 }
 
 export default ChainUtil;
