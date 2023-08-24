@@ -46,6 +46,10 @@ app.post('/mine', (req, res) => {
   }
 })
 
+app.get('/public-key', (req, res) => {
+  res.status(200).send({publicKey: wallet.publicKey})
+})
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 })

@@ -1,0 +1,1 @@
+- Lagging transactions more than the required timelimit will reduce the difficulty and on API call if we seperate calls over a long period, the difficulty reaches zero (but is kept back to 3 by default case), but the number of preceding zeros will be 0, which will cause incosistency and failure to validate the chain
