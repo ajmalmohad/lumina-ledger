@@ -12,7 +12,7 @@ app.use(express.json());
 const blockchain = new Blockchain();
 const wallet = new Wallet();
 const mempool = new MemPool();
-const p2pServer = new P2PServer(blockchain);
+const p2pServer = new P2PServer(blockchain, mempool);
 
 app.get('/', (req, res) => {
   res.status(200).send('Working!');
@@ -30,7 +30,8 @@ app.post('/transact', (req, res) => {
   const { recipient, amount } = req.body;
   if(!recipient || !amount) res.status(404).send({"error": "Data not recieved"});
   else {
-    wallet.createTransaction(recipient, amount, mempool);
+    const transaction = wallet.createTransaction(recipient, amount, mempool);
+    p2pServer.broadcastTransaction(transaction);
     res.status(200).send(mempool.transactions);
   }
 })
