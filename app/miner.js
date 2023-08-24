@@ -1,3 +1,5 @@
+export const MINING_REWARD = 50;
+
 class Miner {
     constructor(blockchain, memPool, wallet, p2pServer) {
         this.blockchain = blockchain;
