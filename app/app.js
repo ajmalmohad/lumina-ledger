@@ -4,6 +4,7 @@ import Blockchain from './../blockchain/blockchain.js'
 import P2PServer from './p2p.js'
 import Wallet from './../wallet/wallet.js'
 import MemPool from './../wallet/mempool.js'
+import Miner from './miner.js'
 
 dotenv.config();
 const port  = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ const blockchain = new Blockchain();
 const wallet = new Wallet();
 const mempool = new MemPool();
 const p2pServer = new P2PServer(blockchain, mempool);
+const miner = new Miner(blockchain, mempool, wallet, p2pServer);
 
 app.get('/', (req, res) => {
   res.status(200).send('Working!');
@@ -44,6 +46,12 @@ app.post('/mine', (req, res) => {
     p2pServer.syncChains();
     res.status(200).send(blockchain.chain);
   }
+})
+
+app.get('/mine-transactions', (req, res) => {
+  const block = miner.mine();
+  console.log(`New block added: ${block.toString()}`);
+  res.status(200).send(blockchain.chain);
 })
 
 app.get('/public-key', (req, res) => {
