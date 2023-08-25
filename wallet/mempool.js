@@ -37,6 +37,10 @@ class MemPool {
                 return transaction;
         })
     }
+
+    clear() {
+        this.transactions = [];
+    }
 }
 
 export default MemPool;

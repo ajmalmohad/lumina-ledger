@@ -1,3 +1,6 @@
+import Transaction from "../wallet/transaction.js";
+import Wallet from "../wallet/wallet.js";
+
 export const MINING_REWARD = 50;
 
 class Miner {
@@ -10,11 +13,13 @@ class Miner {
 
     mine() {
         const validTransactions = this.memPool.validTransactions();
-        // give reward for miner
-        // create block of valid transaction
-        // sync chains in p2p server
-        // clear mem pool 
-        // broadcast to others to clear their mempools
+        validTransactions.push(Transaction.rewardTransaction(this.wallet, Wallet.blockChainWallet()))
+        const block = this.blockchain.addBlock(validTransactions);
+        this.p2pServer.syncChains();
+        this.memPool.clear();
+        this.p2pServer.broadcastClearTransactions();
+
+        return block;
     }
 }
 

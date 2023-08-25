@@ -22,6 +22,11 @@ describe('MemPool', () => {
         expect(JSON.stringify(mp.transactions.find(t => t.id === newTransaction.id))).not.toEqual(oldTransaction);
     });
 
+    it('clears the transactions', () => {
+        mp.clear();
+        expect(mp.transactions).toEqual([]);
+    });
+
     describe('mixing valid and corrupt transactions', () => { 
          let validTransactions;
          beforeEach(()=>{
