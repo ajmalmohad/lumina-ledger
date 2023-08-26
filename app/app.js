@@ -32,7 +32,7 @@ app.post('/transact', (req, res) => {
   const { recipient, amount } = req.body;
   if(!recipient || !amount) res.status(404).send({"error": "Data not recieved"});
   else {
-    const transaction = wallet.createTransaction(recipient, amount, mempool);
+    const transaction = wallet.createTransaction(recipient, amount, blockchain, mempool);
     p2pServer.broadcastTransaction(transaction);
     res.status(200).send(mempool.transactions);
   }

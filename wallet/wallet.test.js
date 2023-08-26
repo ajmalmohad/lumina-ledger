@@ -1,12 +1,14 @@
 import Wallet from "./wallet.js";
 import MemPool from "./mempool.js";
+import BlockChain from "../blockchain/blockchain.js";
 
 describe('Wallet', () => { 
-    let wallet, mp;
+    let wallet, mp, bc;
 
     beforeEach(()=>{
         wallet = new Wallet();
         mp = new MemPool();
+        bc = new BlockChain();
     });
 
     describe('creating a transaction', () => {
@@ -15,12 +17,12 @@ describe('Wallet', () => {
         beforeEach(()=>{
             sendAmount = 50;
             recipient = "random-recipient";
-            transaction = wallet.createTransaction(recipient, sendAmount, mp);
+            transaction = wallet.createTransaction(recipient, sendAmount, bc, mp);
         });
 
         describe('and doing the same transaction', () => {
             beforeEach(()=>{
-                wallet.createTransaction(recipient, sendAmount, mp);
+                wallet.createTransaction(recipient, sendAmount, bc, mp);
             });
 
             it('doubles the `sendAmount` subtracted from the wallet balance', () => {

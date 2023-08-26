@@ -1,14 +1,15 @@
 import MemPool from "./mempool.js";
-import Transaction from "./transaction.js";
 import Wallet from './../wallet/wallet.js'
+import BlockChain from "../blockchain/blockchain.js";
 
 describe('MemPool', () => { 
-    let mp, wallet, transaction;
+    let mp, wallet, transaction, bc;
     
     beforeEach(()=>{
         mp = new MemPool();
         wallet = new Wallet();
-        transaction = wallet.createTransaction('random-address', 30, mp);
+        bc = new BlockChain();
+        transaction = wallet.createTransaction('random-address', 30, bc, mp);
     });
 
     it('adds a transaction to the pool', () => {
@@ -33,7 +34,7 @@ describe('MemPool', () => {
             validTransactions = [...mp.transactions];
             for (let i = 0; i < 6; i++) {
                 wallet = new Wallet();
-                transaction = wallet.createTransaction('random-address', 30, mp);
+                transaction = wallet.createTransaction('random-address', 30, bc, mp);
                 if(i%2 == 0) transaction.input.amount = 99999;
                 else validTransactions.push(transaction);
             }
