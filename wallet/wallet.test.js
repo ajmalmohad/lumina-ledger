@@ -57,5 +57,29 @@ describe('Wallet', () => {
         it('calculates the balance for blockchain transactions matching the sender', () => {
             expect(senderWallet.calculateBalance(bc)).toEqual(INITIAL_BALANCE - (addBalance*repeatAdd))
         });
+
+        describe('and the recipient conducts a transaction', () => {
+            let subtractBalance, recipientBalance;
+
+            beforeEach(() => {
+                mp.clear();
+                subtractBalance = 60;
+                recipientBalance = wallet.calculateBalance(bc);
+                wallet.createTransaction(senderWallet.publicKey, subtractBalance, bc, mp);
+                bc.addBlock(mp.transactions);
+            });
+
+            describe('and the sender sends another transaction to the recipient', () => {
+                beforeEach(() => {
+                    mp.clear();
+                    senderWallet.createTransaction(wallet.publicKey, addBalance, bc, mp);
+                    bc.addBlock(mp.transactions);
+                });
+
+                it('calculates the recipient balance only using transaction since it\'s most recent one', ()=>{
+                    expect(wallet.calculateBalance(bc)).toEqual(recipientBalance - subtractBalance + addBalance)
+                })
+            });
+        });
     });
  })
