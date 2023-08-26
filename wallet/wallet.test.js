@@ -1,4 +1,4 @@
-import Wallet from "./wallet.js";
+import Wallet, { INITIAL_BALANCE } from "./wallet.js";
 import MemPool from "./mempool.js";
 import BlockChain from "../blockchain/blockchain.js";
 
@@ -35,5 +35,27 @@ describe('Wallet', () => {
                 .map(output => output.amount)).toEqual([sendAmount, sendAmount]);
             });
         });
-    })
+    });
+
+    describe('calculating a balance', () => {
+        let addBalance, repeatAdd, senderWallet;
+
+        beforeEach(()=>{
+            senderWallet = new Wallet();
+            addBalance = 100;
+            repeatAdd = 3;
+            for (let i = 0; i < repeatAdd; i++) {
+                senderWallet.createTransaction(wallet.publicKey, addBalance, bc, mp);
+            }
+            bc.addBlock(mp.transactions);
+        });
+
+        it('calculates the balance for blockchain transactions matching the recipient', () => {
+            expect(wallet.calculateBalance(bc)).toEqual(INITIAL_BALANCE + (addBalance*repeatAdd))
+        });
+
+        it('calculates the balance for blockchain transactions matching the sender', () => {
+            expect(senderWallet.calculateBalance(bc)).toEqual(INITIAL_BALANCE - (addBalance*repeatAdd))
+        });
+    });
  })
